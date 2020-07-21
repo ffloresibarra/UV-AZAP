@@ -1,8 +1,0 @@
-{
-    "hooks": [
-        {
-            "name": "newsletter.email",
-            "script": "./cartridge/scripts/hooks/newsletterEmail.js"
-        }
-    ]
-}
