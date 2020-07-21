@@ -1,0 +1,7 @@
+<isdecorate template="common/layout/page">
+<div class="ml-5">
+<h1>${Resource.msg('weight.unit', 'unit', null)}
+</h1>
+</div>
+    
+</isdecorate>

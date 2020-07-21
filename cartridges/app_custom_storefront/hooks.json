@@ -6,6 +6,22 @@
         {
             "name": "dw.ocapi.shop.category.modifyGETResponse",
             "script": "./cartridge/scripts/hooks/categories"
+        },
+        {
+            "name": "dw.ocapi.shop.basket.modifyGETResponse",
+            "script": "./cartridge/scripts/hooks/basket"
+        },
+        {
+            "name": "dw.ocapi.shop.basket.beforePATCH",
+            "script": "./cartridge/scripts/hooks/basket"
+        },
+        {
+            "name": "dw.ocapi.shop.basket.beforePOST",
+            "script": "./cartridge/scripts/hooks/basket"
+        },
+        {
+            "name": "dw.ocapi.shop.basket.validateBasket",
+            "script": "./cartridge/scripts/hooks/validateBasket"
         }
     ]
 }

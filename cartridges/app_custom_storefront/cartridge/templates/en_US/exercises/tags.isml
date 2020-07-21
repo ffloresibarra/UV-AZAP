@@ -1,0 +1,42 @@
+<isdecorate template="common/layout/page">
+<isinclude template="components/modules" />
+<iscomment>
+<iscache type="relative" minute="1">
+</iscomment>
+
+
+    <div>
+        <div>
+            <h2>This is my local template</h2>
+            <isautor nombre="Francisco"/>
+        </div>
+    </div>
+    <div>
+        <iscomment>
+        Este Apartado muestra algunas de las etiquetas ISML
+        </iscomment>
+        <isloop iterator="${pdict.viewData}" var="lista" status = "status">
+            <isprint value="${status.begin}" />
+            <isprint value="${status.count}" />
+            <isprint value="${status.end}" />
+            <isprint value="${status.even}" />
+            <isprint value="${status.first}" />
+            <isprint value="${status.index}" />
+            <isprint value="${status.last}" />  
+            <isprint value="${status.length}" />
+            <isprint value="${status.odd}" />
+            <isprint value="${status.step}" />
+            <isprint value="${lista.nombre}"/>
+                <isif condition="${status.index == 2}">
+                <isprint value="${lista.apellido}"/><br>
+                    <iscomment>
+                        <isbreak/>
+                    </iscomment>
+                    
+                    <iscontinue/>
+                </isif>
+                 <BR>
+                
+        </isloop>
+    </div>
+</isdecorate>

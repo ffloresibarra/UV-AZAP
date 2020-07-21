@@ -1,0 +1,6 @@
+
+<html>
+   <isprint value="${PageMgr.renderRegion( pdict.page.getRegion('header') )}" encoding="off"/>
+   <isprint value="${PageMgr.renderRegion( pdict.page.getRegion('main') )}" encoding="off"/>
+   <isprint value="${PageMgr.renderRegion( pdict.page.getRegion('footer') )}" encoding="off"/>
+</html>

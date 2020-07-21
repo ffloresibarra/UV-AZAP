@@ -1,0 +1,7 @@
+<isdecorate template="common/layout/page">
+<isprint value="${pdict.saludo}"/><br/>
+<a href="${URLUtils.https('Res1-Show')}" role="button" aria-label="${Resource.msg('label.header.loginbutton', 'account', null)}">
+    <i class="fa fa-sign-in" aria-hidden="true"></i>
+    <span class="user-message">prueba con PDPage</span>
+</a>
+</isdecorate>

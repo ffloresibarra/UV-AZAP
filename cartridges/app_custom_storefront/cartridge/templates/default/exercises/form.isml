@@ -1,0 +1,5 @@
+<div class="row justify-content-center mx-0">
+    	<isloop iterator="${CustomObject}" var="lista" status = "status">
+            <isprint value="${lista.custom.firstName}"/><br>
+        </isloop>
+	</div>

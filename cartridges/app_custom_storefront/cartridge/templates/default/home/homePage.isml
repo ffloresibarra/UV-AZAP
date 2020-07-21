@@ -2,12 +2,10 @@
     <isscript>
         var sitePrefs = dw.system.Site.getCurrent().getPreferences();
         var my= sitePrefs.getCustom()["listPriceDefault"];
-
-        var orgPrefs= dw.object.CustomObjectMgr.getCustomObject(customObject, customObject);
-
+        var CustomObject= dw.object.CustomObjectMgr.getCustomObject('NewsletterSubscription', 'test@test.com');
+        
         var assets = require('*/cartridge/scripts/assets.js');
         assets.addJs('/js/productTile.js');
-        assets.addCss('/css/homePage.css');
     </isscript>
 
     <!-- +1.888.555.0199 --><!--This phone is a requirement to support existing Gomez monitor of SiteGenesis. Demadware customers can remove this.-->
@@ -18,7 +16,12 @@
     <div class="container d-flex p-2 justify-content-center">
         <a class="btn btn-secondary text-light" href="${URLUtils.url('Page-Show', 'cid', 'home-assets')}">Calling my first content asset</a>
     </div>
-    
+    <a href="${URLUtils.https('PDPage-Show','cid','homedesigner')}" role="button" aria-label="${Resource.msg('label.header.loginbutton', 'account', null)}">
+            <i class="fa fa-sign-in" aria-hidden="true"></i>
+            <span class="user-message">prueba con PDPage</span>
+        </a>
+
+    <isinclude url="${URLUtils.url('Products-Show')}"/>
     <div id="redireccion" data-time="${sitePrefs.custom.time_link}" data-url="${sitePrefs.custom.redirection_link}"></div>
     <div class="container home-categories homepage">
         <div class="row home-main-categories no-gutters">
@@ -35,6 +38,11 @@
     <div class="homepage shop-the-style">
         <isslot id="home-product-set-m" description="Link to a Product Set." context="global" />
     </div>
+    <div class="row justify-content-center mx-0">
+        <isprint value="${CustomObject.custom.email}"/><br>
+        <isprint value="${CustomObject.custom.firstName}"/><br>
+        <isprint value="${CustomObject.custom.lastName}"/><br>
+	</div>
     <div class="home-email-signup">
         <div class="container">
             <form role="form">

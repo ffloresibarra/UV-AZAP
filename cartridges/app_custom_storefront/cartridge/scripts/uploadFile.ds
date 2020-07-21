@@ -1,0 +1,83 @@
+importPackage( dw.io );
+importPackage( dw.net );
+importPackage( dw.system );
+importPackage( dw.util );
+importPackage( dw.svc );
+/**
+ * Upload file to remote SFTP server
+ *
+ * @input RemoteHost : String
+ * @input RemotePort : String
+ * @input RemoteLogin : String
+ * @input RemotePassword : String
+ * @input RemotePath : String
+ * @input LocalFolder : String
+ * @input backupFolder : String
+ *
+ */
+
+function execute( pdict : PipelineDictionary ) : Number {
+
+
+    var remoteHost = pdict.RemoteHost;
+    var remotePort = pdict.RemotePort;
+    var remoteLogin = pdict.RemoteLogin;
+    var remotePassword = pdict.RemotePassword;
+    var remotePath = pdict.RemotePath;
+    var LocalFolder = pdict.LocalFolder;
+    var status = new Status(Status.OK);
+
+    var ftpClient: FTPClient = new FTPClient();
+
+    
+    try {
+        // var ftpConnection= ftpClient.connect("files.000webhost.com",21, "certificacion-2020", "Certificacion2020");
+        var ftpConnection= ftpClient.connect(remoteHost,remotePort,remoteLogin, remotePassword);
+
+        if (ftpConnection) {
+            status = sendFiles(ftpClient, remotePath, LocalFolder)
+        } else {
+            Logger.error('Failed to establish SFTP connection to ' + remoteHost + remoteLogin + remotePassword + ' | ' + ftpClient.errorMessage);
+            status = new Status(Status.ERROR);
+            ftpClient.disconnect();
+        }
+    } catch (error) {
+        Logger.error('Unexpected error: ' + error.name + ' | ' + ftpClient.errorMessage);
+        status = new Status(Status.ERROR);
+    }
+
+    return status;
+}
+
+function sendFiles(ftpClient, remotePath, LocalFolder) {
+    var status = new Status(Status.OK);
+    var localFolder : File = new File(File.IMPEX + File.SEPARATOR + 'src' + File.SEPARATOR + LocalFolder);
+
+    for each (var currentFile : File in localFolder.listFiles()) {
+        var fileName = currentFile.getName();
+        var localFile : File = new File(File.IMPEX + File.SEPARATOR + 'src' + File.SEPARATOR + LocalFolder + fileName);
+
+        if (localFile.isFile() && localFile.exists()) {
+            var uploadSuccess : Boolean = ftpClient.putBinary(remotePath + fileName, localFile);
+
+            if (uploadSuccess) {
+                Logger.info('File uploaded successfully ---> ' + fileName);
+
+                if(!currentFile.remove() ){
+                    Logger.error('Unable to delete file ---> ' + fileName);
+                    status = new Status(Status.ERROR);
+                }
+            } else {
+                Logger.error('Failed to upload the file: ' + remotePath + '--->' + localFolder);
+                status = new Status(Status.ERROR);
+            }
+        }
+    }
+
+    ftpClient.disconnect();
+    return status;
+}
+
+module.exports = {
+    'execute': execute,
+}

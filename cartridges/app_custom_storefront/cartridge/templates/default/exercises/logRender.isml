@@ -4,7 +4,7 @@
             <p>
                 ${Resource.msg('main.response.exercise', 'logRender', null)}
                 <br/>
-                <isprint value="${pdict.info}" encoding="htmlcontent" />
+                <isprint value="${pdict.myProduct}" encoding="htmlcontent" />
             </p>
     </div>
 

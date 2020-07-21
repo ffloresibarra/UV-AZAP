@@ -1,0 +1,47 @@
+importPackage( dw.io );
+importPackage( dw.net );
+importPackage( dw.system );
+importPackage( dw.util );
+importPackage( dw.svc );
+/**
+ * @input Folder : String
+ */
+
+function execute( pdict : PipelineDictionary ) : Number {
+
+    var status = new Status(Status.OK);
+    var folders= pdict;
+    try {
+        
+        var status = new Status(Status.OK);
+        var Folder : File = new File(File.IMPEX + File.SEPARATOR + 'src');
+
+        for each (var currentFile : File in Folder.listFiles()) {
+            var fileName = currentFile.getName();
+            var localFile : File = new File(File.IMPEX + File.SEPARATOR + 'src' + File.SEPARATOR + fileName);
+            var pass= true;
+
+            for each(var dir in folders){
+                dir==fileName?pass=!pass:"";
+            }
+            if (pass && localFile.exists()) {
+
+                if(!currentFile.remove() ){
+                    Logger.error('Unable to delete file ---> ' + fileName);
+                    status = new Status(Status.ERROR);
+                }
+                Logger.info('File removed successfully ---> ' + fileName);
+            }
+        }
+        return status;
+    } catch (error) {
+        Logger.error('Unexpected error: ' + error.name);
+        status = new Status(Status.ERROR);
+    }
+
+    return status;
+}
+
+module.exports = {
+    'execute': execute,
+}

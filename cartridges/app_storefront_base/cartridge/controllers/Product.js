@@ -16,7 +16,7 @@ var pageMetaData = require('*/cartridge/scripts/middleware/pageMetaData');
  * @property {String} info_selectforstock - Localized string for "Select Styles for Availability"
  */
 
-server.get('Show', cache.applyPromotionSensitiveCache, consentTracking.consent, function (req, res, next) {
+server.get('Show', cache.applyPromotionSensitiveCache, consentTracking.consent, function(req, res, next) {
     var productHelper = require('*/cartridge/scripts/helpers/productHelpers');
     var showProductPageHelperResult = productHelper.showProductPage(req.querystring, req.pageMetaData);
     var productType = showProductPageHelperResult.product.productType;
@@ -36,7 +36,7 @@ server.get('Show', cache.applyPromotionSensitiveCache, consentTracking.consent, 
     next();
 }, pageMetaData.computedPageMetaData);
 
-server.get('ShowInCategory', cache.applyPromotionSensitiveCache, function (req, res, next) {
+server.get('ShowInCategory', cache.applyPromotionSensitiveCache, function(req, res, next) {
     var productHelper = require('*/cartridge/scripts/helpers/productHelpers');
     var showProductPageHelperResult = productHelper.showProductPage(req.querystring, req.pageMetaData);
     if (!showProductPageHelperResult.product.online) {
@@ -53,7 +53,7 @@ server.get('ShowInCategory', cache.applyPromotionSensitiveCache, function (req, 
     next();
 });
 
-server.get('Variation', function (req, res, next) {
+server.get('Variation', function(req, res, next) {
     var productHelper = require('*/cartridge/scripts/helpers/productHelpers');
     var priceHelper = require('*/cartridge/scripts/helpers/pricing');
     var ProductFactory = require('*/cartridge/scripts/factories/product');
@@ -99,7 +99,7 @@ server.get('Variation', function (req, res, next) {
     next();
 });
 
-server.get('ShowQuickView', cache.applyPromotionSensitiveCache, function (req, res, next) {
+server.get('ShowQuickView', cache.applyPromotionSensitiveCache, function(req, res, next) {
     var URLUtils = require('dw/web/URLUtils');
     var productHelper = require('*/cartridge/scripts/helpers/productHelpers');
     var ProductFactory = require('*/cartridge/scripts/factories/product');
@@ -109,9 +109,9 @@ server.get('ShowQuickView', cache.applyPromotionSensitiveCache, function (req, r
     var params = req.querystring;
     var product = ProductFactory.get(params);
     var addToCartUrl = URLUtils.url('Cart-AddProduct');
-    var template = product.productType === 'set'
-        ? 'product/setQuickView.isml'
-        : 'product/quickView.isml';
+    var template = product.productType === 'set' ?
+        'product/setQuickView.isml' :
+        'product/quickView.isml';
 
     var context = {
         product: product,
@@ -125,7 +125,7 @@ server.get('ShowQuickView', cache.applyPromotionSensitiveCache, function (req, r
 
     res.setViewData(context);
 
-    this.on('route:BeforeComplete', function (req, res) { // eslint-disable-line no-shadow
+    this.on('route:BeforeComplete', function(req, res) { // eslint-disable-line no-shadow
         var viewData = res.getViewData();
         var renderedTemplate = renderTemplateHelper.getRenderedHtml(viewData, viewData.template);
 
@@ -138,7 +138,7 @@ server.get('ShowQuickView', cache.applyPromotionSensitiveCache, function (req, r
     next();
 });
 
-server.get('SizeChart', function (req, res, next) {
+server.get('SizeChart', function(req, res, next) {
     var ContentMgr = require('dw/content/ContentMgr');
 
     var apiContent = ContentMgr.getContent(req.querystring.cid);
@@ -154,7 +154,7 @@ server.get('SizeChart', function (req, res, next) {
     next();
 });
 
-server.get('ShowBonusProducts', function (req, res, next) {
+server.get('ShowBonusProducts', function(req, res, next) {
     var Resource = require('dw/web/Resource');
     var ProductFactory = require('*/cartridge/scripts/factories/product');
     var renderTemplateHelper = require('*/cartridge/scripts/renderTemplateHelper');
@@ -170,12 +170,12 @@ server.get('ShowBonusProducts', function (req, res, next) {
     var selectedBonusProducts;
 
     if (duuid) {
-        var bonusDiscountLineItem = collections.find(currentBasket.getBonusDiscountLineItems(), function (item) {
+        var bonusDiscountLineItem = collections.find(currentBasket.getBonusDiscountLineItems(), function(item) {
             return item.UUID === duuid;
         });
 
         if (bonusDiscountLineItem && bonusDiscountLineItem.bonusProductLineItems.length) {
-            selectedBonusProducts = collections.map(bonusDiscountLineItem.bonusProductLineItems, function (bonusProductLineItem) {
+            selectedBonusProducts = collections.map(bonusDiscountLineItem.bonusProductLineItems, function(bonusProductLineItem) {
                 var option = {
                     optionid: '',
                     selectedvalue: ''
@@ -197,11 +197,12 @@ server.get('ShowBonusProducts', function (req, res, next) {
 
         if (req.querystring.pids) {
             var params = req.querystring.pids.split(',');
-            products = params.map(function (param) {
+            products = params.map(function(param) {
                 product = ProductFactory.get({
                     pid: param,
                     pview: 'bonus',
-                    duuid: duuid });
+                    duuid: duuid
+                });
                 return product;
             });
         } else {
@@ -251,7 +252,7 @@ server.get('ShowBonusProducts', function (req, res, next) {
 
     res.setViewData(context);
 
-    this.on('route:BeforeComplete', function (req, res) { // eslint-disable-line no-shadow
+    this.on('route:BeforeComplete', function(req, res) { // eslint-disable-line no-shadow
         var viewData = res.getViewData();
 
         res.json({
